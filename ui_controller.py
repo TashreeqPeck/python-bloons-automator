@@ -2,13 +2,22 @@
 
 # Standard
 import logging
+import time
 
 # Third Party
 import pyautogui
 from pyautogui import ImageNotFoundException
+import keyboard
 
 # Local
-from constants import ROUND_START, ENABLE_FAST_FORWARD, DISABLE_FAST_FORWARD
+from constants import (
+    CANCEL_PLACEMENT,
+    ROUND_START,
+    ENABLE_FAST_FORWARD,
+    DISABLE_FAST_FORWARD,
+    UPGRADE_HOTKEYS,
+)
+from monkeys.base_monkey import BaseMonkey, UpgradeException, UpgradePath
 from ocr import grab_int
 
 # -------------------------------------------------------------------------------------------------
@@ -61,4 +70,30 @@ class UIController:
         """Gets the player's money (using ocr)"""
         return grab_int((490, 20, 270, 60))
 
+    def place_monkey(self, monkey: BaseMonkey, position: tuple[int, int]):
+        """Place a monkey on the map"""
+        # if not monkey.can_afford(self.get_money()):
+        #     raise ActionFailedException("Insufficient funds")
 
+        x, y = position
+        pyautogui.click(x, y)
+        keyboard.press_and_release(monkey.hotkey)
+        pyautogui.click(x, y)
+        try:
+            pyautogui.locateOnScreen(CANCEL_PLACEMENT)
+            raise ActionFailedException("Failed to place monkey")
+        except ImageNotFoundException:
+            monkey.position = (x, y)
+
+    def upgrade_monkey(self, monkey: BaseMonkey, path: UpgradePath):
+        """Upgrades a monkey"""
+        if not monkey.can_upgrade(path, self.get_money()):
+            raise UpgradeException("Monkey not upgradable")
+        if monkey.position is None:
+            raise ActionFailedException("Monkey is not placed")
+
+        x, y = monkey.position
+        pyautogui.click(x, y)
+        keyboard.press_and_release(UPGRADE_HOTKEYS[path])
+        monkey.increment_upgrade(path)
+        pyautogui.click(x, y)
