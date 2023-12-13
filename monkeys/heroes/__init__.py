@@ -23,7 +23,7 @@ class Hero:
                 "_base_costs must be implemented in derived class"
             )
         self.cost = self._base_costs[difficulty.value]  # pylint: disable=E1101
-        self.hotkey = "U"
+        self.hotkey = "u"
 
     def can_afford(self, money: int) -> bool:
         """Check if the monkey can be afforded"""

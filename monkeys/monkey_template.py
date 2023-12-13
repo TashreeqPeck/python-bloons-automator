@@ -19,7 +19,6 @@ class Monkey(BaseMonkey):
     """"""
 
     def __init__(self, difficulty: Difficulty) -> None:
-        self.hotkey = ""
         self._base_costs = np.array([])
         self._upgrade_costs = np.array(
             [
@@ -46,3 +45,7 @@ class Monkey(BaseMonkey):
             ]
         )
         super().__init__(difficulty)
+
+    @property
+    def hotkey(self) -> str:
+        return ""

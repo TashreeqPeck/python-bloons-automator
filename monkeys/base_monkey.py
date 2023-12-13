@@ -1,6 +1,7 @@
 "Base Tower"
 
 # Standard
+from abc import ABC, abstractmethod
 from enum import Enum
 import logging
 
@@ -36,7 +37,7 @@ class UpgradeException(Exception):
     """Exception for upgrading tower"""
 
 
-class BaseMonkey:
+class BaseMonkey(ABC):
     """Base Monkey"""
 
     def __init__(self, difficulty: Difficulty) -> None:
@@ -45,10 +46,16 @@ class BaseMonkey:
                 "_upgrade_costs and _base_costs must be implemented in derived class"
             )
         self._upgrades = np.array([-1, -1, -1])
+        self.position: tuple[int, int] | None = None
         # pylint: disable=E1101
         self._upgrade_cost = self._upgrade_costs[difficulty.value]
         self.cost = self._base_costs[difficulty.value]
         # pylint: enable=E1101
+
+    @property
+    @abstractmethod
+    def hotkey(self) -> str:
+        """Hotkey to place tower"""
 
     def can_upgrade(self, path: UpgradePath, money: int | None = None) -> bool:
         """Check if the monkey can be upgraded"""
