@@ -2,35 +2,18 @@
 
 # Standard
 from abc import ABC, abstractmethod
-from enum import Enum
 import logging
 
 # Third Party
 import numpy as np
 
 # Local
+from constants import Difficulty, UpgradePath
 
 # -------------------------------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 # -------------------------------------------------------------------------------------------------
-
-
-class Difficulty(Enum):
-    """Map Difficulty"""
-
-    EASY = 0
-    MEDIUM = 1
-    HARD = 2
-    IMPOPPABLE = 3
-
-
-class UpgradePath(Enum):
-    """Upgrade Paths"""
-
-    TOP = 0
-    MIDDLE = 1
-    BOTTOM = 2
 
 
 class UpgradeException(Exception):
