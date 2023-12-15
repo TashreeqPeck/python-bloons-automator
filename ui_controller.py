@@ -98,13 +98,17 @@ class UIController:
         """Gets the player's health (using ocr)"""
         return self.ocr.grab_int(HEALTH_REGION, self.calculated_cash)
 
-    def get_money(self) -> int:
+    def get_cash(self) -> int:
         """Gets the player's money (using ocr)"""
         return self.ocr.grab_int(MONEY_REGION, self.calculated_cash)
 
+    def can_afford(self, monkey: BaseMonkey | Hero):
+        """Checks if a monkey can be afforded"""
+        return monkey.cost < self.get_cash()
+
     def place_monkey(self, monkey: BaseMonkey | Hero, position: tuple[int, int]):
         """Place a monkey on the map"""
-        if not monkey.can_afford(self.get_money()):
+        if self.can_afford(monkey):
             raise ActionFailedException("Insufficient funds")
         if monkey.position is not None:
             raise ActionFailedException("Monkey already placed")
@@ -123,13 +127,13 @@ class UIController:
         self.cash_offset += monkey.cost
         logger.info("%s placed at (%i, %i)", monkey.__class__.__name__, x, y)
 
+    def can_upgrade(self, monkey: BaseMonkey, path: UpgradePath):
+        """Checks if a monkey can upgrade the specified path"""
+        return self.can_afford(monkey) and monkey.can_upgrade(path)
+
     def upgrade_monkey(self, monkey: BaseMonkey, path: UpgradePath):
         """Upgrades a monkey"""
-        money = self.get_money()
-        if not monkey.can_upgrade(path, money):
-            logger.info(
-                "Upgrade Cost: %i, Money: %i", monkey.next_upgrade_cost(path), money
-            )
+        if not self.can_upgrade(monkey, path):
             raise UpgradeException("Monkey not upgradable")
         if monkey.position is None:
             raise ActionFailedException("Monkey is not placed")

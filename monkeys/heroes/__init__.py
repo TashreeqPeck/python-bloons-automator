@@ -25,7 +25,3 @@ class Hero:
         self.position: tuple[int, int] | None = None
         self.cost = self._base_costs[difficulty.value]  # pylint: disable=E1101
         self.hotkey = "u"
-
-    def can_afford(self, money: int) -> bool:
-        """Check if the monkey can be afforded"""
-        return self.cost < money

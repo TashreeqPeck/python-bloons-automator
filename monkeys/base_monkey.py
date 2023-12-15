@@ -40,13 +40,12 @@ class BaseMonkey(ABC):
     def hotkey(self) -> str:
         """Hotkey to place tower"""
 
-    def can_upgrade(self, path: UpgradePath, money: int | None = None) -> bool:
+    def can_upgrade(self, path: UpgradePath) -> bool:
         """Check if the monkey can be upgraded"""
         path_1, path_2 = [_path for _path in UpgradePath if _path is not path]
         path_0 = self._upgrades[path.value]
         path_1 = self._upgrades[path_1.value]
         path_2 = self._upgrades[path_2.value]
-        cost = self.next_upgrade_cost(path)
         # Handle max upgrades
         return not (
             # Can't upgrade more than 5 times
@@ -55,8 +54,6 @@ class BaseMonkey(ABC):
             or (path_1 >= 0 and path_2 >= 0)  # type: ignore
             # Can't upgrade 1 path more than 2 times
             or (path_0 == 1 and (path_1 > 1 or path_2 > 1))  # type: ignore
-            # Can't upgrade if money is not enough
-            or (cost is not None and money is not None and money < cost)
         )
 
     def next_upgrade_cost(self, path: UpgradePath) -> int | None:
@@ -73,7 +70,3 @@ class BaseMonkey(ABC):
         if not self.can_upgrade(path):
             raise UpgradeException("Upgrade unsuccessful")
         self._upgrades[path.value] += 1
-
-    def can_afford(self, money: int) -> bool:
-        """Check if the monkey can be afforded"""
-        return self.cost < money
