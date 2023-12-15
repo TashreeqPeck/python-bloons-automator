@@ -1,4 +1,4 @@
-"""BloonsTD6 UI control"""
+"""BloonsTD6 UI Driver"""
 
 # Standard
 import logging
@@ -29,8 +29,8 @@ class RoundAlreadyStartedException(ActionFailedException):
     """Exception for round already started"""
 
 
-class UIController:
-    """Bloons TD6 UI Controller"""
+class BloonsDriver:
+    """Driver for Bloons TD6"""
 
     def __init__(self, difficulty: Difficulty, ocr_filename: str = "default") -> None:
         self.ocr = OCR(ocr_filename)

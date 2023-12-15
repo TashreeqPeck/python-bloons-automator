@@ -6,13 +6,13 @@ from monkeys.dart_monkey import DartMonkey
 from monkeys.heroes.obyn import Obyn
 from monkeys.ninja_monkey import NinjaMonkey
 from monkeys.sniper_monkey import SniperMonkey
-from ui_controller import UIController
+from bloons_driver import BloonsDriver
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
 
-ui = UIController(Difficulty.EASY, ocr_filename="scrapyard_calc")
+ui = BloonsDriver(Difficulty.EASY, ocr_filename="scrapyard_calc")
 hero = Obyn(Difficulty.EASY)
 ninja = NinjaMonkey(Difficulty.EASY)
 dart = DartMonkey(Difficulty.EASY)
