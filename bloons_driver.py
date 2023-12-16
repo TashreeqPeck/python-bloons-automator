@@ -11,6 +11,7 @@ import keyboard
 
 # Local
 from constants import *  # pylint: disable=W0401, W0614
+from maps import Map
 from monkeys.base_monkey import BaseMonkey, UpgradeException
 from monkeys.heroes import Hero
 from ocr import OCR
@@ -32,10 +33,13 @@ class RoundAlreadyStartedException(ActionFailedException):
 class BloonsDriver:
     """Driver for Bloons TD6"""
 
-    def __init__(self, difficulty: Difficulty, ocr_filename: str = "default") -> None:
+    def __init__(
+        self, difficulty: Difficulty, _map: Map, ocr_filename: str = "default"
+    ) -> None:
         self.ocr = OCR(ocr_filename)
         self.round = STARTING_ROUND[difficulty.value]
         self.cash_offset = CUMULATIVE_ROUND_CASH[self.round - 1]
+        self.map = _map
 
     @property
     def calculated_cash(self):
@@ -106,13 +110,17 @@ class BloonsDriver:
         """Checks if a monkey can be afforded"""
         return monkey.cost < self.get_cash()
 
-    def place_monkey(self, monkey: BaseMonkey | Hero, position: tuple[int, int]):
+    def place_monkey(
+        self, monkey: BaseMonkey | Hero, position: tuple[int, int], fuzzy: bool = False
+    ):
         """Place a monkey on the map"""
-        if self.can_afford(monkey):
+        if not self.can_afford(monkey):
             raise ActionFailedException("Insufficient funds")
-        if monkey.position is not None:
+        if monkey.position is (-1, -1):
             raise ActionFailedException("Monkey already placed")
-        x, y = position
+
+        self.map.place_monkey(monkey, position, fuzzy)
+        x, y = monkey.position
         pyautogui.click(x, y)
         keyboard.press_and_release(monkey.hotkey)
         time.sleep(0.1)
@@ -122,7 +130,7 @@ class BloonsDriver:
             pyautogui.locateOnScreen(CANCEL_PLACEMENT, confidence=0.9)
             raise ActionFailedException("Failed to place monkey")
         except ImageNotFoundException:
-            monkey.position = (x, y)
+            pass
 
         self.cash_offset += monkey.cost
         logger.info("%s placed at (%i, %i)", monkey.__class__.__name__, x, y)

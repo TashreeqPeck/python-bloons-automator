@@ -1,6 +1,7 @@
 """Script to beat the scrapyard map on easy"""
 
 import logging
+from maps import Scrapyard
 from monkeys.base_monkey import Difficulty, UpgradePath
 from monkeys.dart_monkey import DartMonkey
 from monkeys.heroes.obyn import Obyn
@@ -12,13 +13,13 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
 
-ui = BloonsDriver(Difficulty.EASY, ocr_filename="scrapyard_calc")
+ui = BloonsDriver(Difficulty.EASY, Scrapyard(), ocr_filename="scrapyard_calc")
 hero = Obyn(Difficulty.EASY)
 ninja = NinjaMonkey(Difficulty.EASY)
 dart = DartMonkey(Difficulty.EASY)
 sniper = SniperMonkey(Difficulty.EASY)
 
-ui.place_monkey(dart, (385, 188))
+ui.place_monkey(dart, (385, 188), True)
 ui.upgrade_monkey(dart, UpgradePath.TOP)
 ui.upgrade_monkey(dart, UpgradePath.MIDDLE)
 ui.upgrade_monkey(dart, UpgradePath.MIDDLE)
@@ -29,7 +30,7 @@ ui.complete_round()  # 3
 ui.complete_round()  # 4
 ui.complete_round()  # 5
 
-ui.place_monkey(sniper, (1990, 1270))
+ui.place_monkey(sniper, (1990, 1270), True)
 ui.complete_round()  # 6
 ui.complete_round()  # 7
 ui.upgrade_monkey(sniper, UpgradePath.TOP)
@@ -40,11 +41,11 @@ ui.complete_round()  # 10
 ui.complete_round()  # 11
 ui.complete_round()  # 12
 
-ui.place_monkey(hero, (540, 1140))
+ui.place_monkey(hero, (540, 1140), True)
 ui.complete_round()  # 13
 ui.complete_round()  # 14
 
-ui.place_monkey(ninja, (390, 300))
+ui.place_monkey(ninja, (390, 300), True)
 ui.complete_round()  # 15
 ui.upgrade_monkey(ninja, UpgradePath.TOP)
 ui.complete_round()  # 16
