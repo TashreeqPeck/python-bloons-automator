@@ -12,6 +12,13 @@ import numpy as np
 import pyautogui
 import easyocr  # type: ignore
 
+from constants import (
+    OCR_IMAGE_NAME,
+    OCR_IMAGE_NAME_PRE,
+    OCR_OUTPUT_DIRECTORY,
+    OCR_TEXT_RESULTS,
+)
+
 # Local
 
 # -------------------------------------------------------------------------------------------------
@@ -23,14 +30,13 @@ logger.addHandler(logging.NullHandler())
 class OCR:
     """OCR Functions"""
 
-    def __init__(self, filename: str = "default") -> None:
+    def __init__(self) -> None:
         self.reader = easyocr.Reader(["en"], False)
         self.tesseract_config = "--psm 7"
-        self.filename = f"ocr_results_{filename}"
         self._counter = 0
 
-        os.makedirs(self.filename, exist_ok=True)
-        with open(f"{self.filename}/results.csv", "w", encoding="UTF-8") as file:
+        os.makedirs(OCR_OUTPUT_DIRECTORY, exist_ok=True)
+        with open(OCR_TEXT_RESULTS, "w", encoding="UTF-8") as file:
             file.write("id, tess, easy, calc\n")
 
     def _preprocess_image(self, image):
@@ -74,26 +80,24 @@ class OCR:
         screenshot = np.array(screenshot)  # type: ignore
 
         # Pre-process the image
-        preprocessed_image = self._preprocess_image(screenshot)
+        pre_image = self._preprocess_image(screenshot)
 
         # Perform OCR on the preprocessed image, restricting to digits only
-        text_tess = pytesseract.image_to_string(
-            preprocessed_image, config=self.tesseract_config
-        )
-        results_easy = self.reader.readtext(preprocessed_image)
+        text_tess = pytesseract.image_to_string(pre_image, config=self.tesseract_config)
+        results_easy = self.reader.readtext(pre_image)
         text_easy = "".join(result[1] for result in results_easy)
 
         # Extract numbers from the recognized text
         number_str_tess = "".join(filter(str.isdigit, text_tess))
         number_str_easy = "".join(filter(str.isdigit, text_easy))
 
-        with open(f"{self.filename}/results.csv", "a", encoding="UTF-8") as file:
+        with open(OCR_TEXT_RESULTS, "a", encoding="UTF-8") as file:
             file.write(f"{self._counter},{number_str_tess},{number_str_easy},{cash}\n")
         cv2.imwrite(
-            f"{self.filename}/img_p_{self._counter}.png",
-            preprocessed_image,
+            OCR_IMAGE_NAME_PRE.replace("X", str(self._counter)),
+            pre_image,
         )
-        cv2.imwrite(f"{self.filename}/img_{self._counter}.png", screenshot)
+        cv2.imwrite(OCR_IMAGE_NAME.replace("X", str(self._counter)), screenshot)
         logger.info("Processed image %i", self._counter)
         self._counter += 1
         # Convert the extracted string to an integer

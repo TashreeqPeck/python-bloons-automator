@@ -18,6 +18,9 @@ logger.addHandler(logging.NullHandler())
 
 
 # General Constants
+MATCHING_THRESHOLD = 0.98
+
+
 class Difficulty(Enum):
     """Map Difficulty"""
 
@@ -27,14 +30,26 @@ class Difficulty(Enum):
     IMPOPPABLE = 3
 
 
-# Image resources
+# OCR Constants
+MONEY_REGION = (486, 30, 220, 57)
+HEALTH_REGION = (180, 20, 110, 60)
+OCR_OUTPUT_DIRECTORY = os.path.join("output", "ocr")
+OCR_IMAGE_NAME = os.path.join(OCR_OUTPUT_DIRECTORY, "screenshot_X.png")
+OCR_IMAGE_NAME_PRE = os.path.join(OCR_OUTPUT_DIRECTORY, "screenshot_pre_X.png")
+OCR_TEXT_RESULTS = os.path.join(OCR_OUTPUT_DIRECTORY, "text_results.csv")
+
+# Round Constants
 ROUND_START = os.path.join("resources", "start_round.png")
 ENABLE_FAST_FORWARD = os.path.join("resources", "enable_fast_forward.png")
 DISABLE_FAST_FORWARD = os.path.join("resources", "disable_fast_forward.png")
+STARTING_ROUND = [1, 1, 3, 6]
+STARTING_CASH = 650
+
+
+# Monkey Constants
 CANCEL_PLACEMENT = os.path.join("resources", "cancel_placement.png")
 
 
-# Upgrade Constants
 class UpgradePath(Enum):
     """Upgrade Paths"""
 
@@ -49,16 +64,7 @@ UPGRADE_HOTKEYS = {
     UpgradePath.BOTTOM: "/",
 }
 
-# Screen capture regions
-MONEY_REGION = (486, 30, 220, 57)
-HEALTH_REGION = (180, 20, 110, 60)
 
-# Round Cash Constants
-STARTING_ROUND = [1, 1, 3, 6]
-STARTING_CASH = 650
-
-
-# Monkey Size Constants
 class MonkeySize(Enum):
     """Monkey Sizes"""
 
@@ -79,7 +85,7 @@ MONKEY_TEMPLATES = {
     MonkeySize.MONKEY_ACE: cv2.imread(MonkeySize.MONKEY_ACE.value),
 }
 
-# Map Offsets
+# Map Constants
 FOOTPRINT_MATCHING_THRESHOLD = 0.97
 AVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "available.png")
 UNAVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "unavailable.png")
