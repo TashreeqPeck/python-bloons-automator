@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
 
-ui = BloonsDriver(Difficulty.EASY, Scrapyard(), ocr_filename="scrapyard_calc")
+ui = BloonsDriver(Difficulty.EASY, Scrapyard())
 hero = Obyn(Difficulty.EASY)
 ninja = NinjaMonkey(Difficulty.EASY)
 dart = DartMonkey(Difficulty.EASY)

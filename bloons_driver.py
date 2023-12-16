@@ -33,10 +33,8 @@ class RoundAlreadyStartedException(ActionFailedException):
 class BloonsDriver:
     """Driver for Bloons TD6"""
 
-    def __init__(
-        self, difficulty: Difficulty, _map: Map, ocr_filename: str = "default"
-    ) -> None:
-        self.ocr = OCR(ocr_filename)
+    def __init__(self, difficulty: Difficulty, _map: Map) -> None:
+        self.ocr = OCR()
         self.round = STARTING_ROUND[difficulty.value]
         self.cash_offset = CUMULATIVE_ROUND_CASH[self.round - 1]
         self.map = _map
