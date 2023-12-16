@@ -9,7 +9,12 @@ import os
 import cv2
 import numpy as np
 from numpy.typing import NDArray
-from constants import MAP_MATCHING_THRESHOLD, MONKEY_TEMPLATES
+from constants import (
+    AVAILABLE_POSITIONS_OUTPUT,
+    FOOTPRINT_MATCHING_THRESHOLD,
+    MONKEY_TEMPLATES,
+    UNAVAILABLE_POSITIONS_OUTPUT,
+)
 
 # Local
 from monkeys import BaseMonkey
@@ -39,7 +44,7 @@ class Map:
         left, right, top, bottom = self._get_bounds(monkey, position)
         reference = self.img[top:bottom, left:right]
         result = cv2.matchTemplate(reference, template, cv2.TM_CCORR_NORMED)
-        return result[0][0] > MAP_MATCHING_THRESHOLD
+        return result[0][0] > FOOTPRINT_MATCHING_THRESHOLD
 
     def get_positions(self, monkey: BaseMonkey | Hero) -> NDArray:
         """Get placable locations"""
@@ -48,7 +53,7 @@ class Map:
 
         reference = self.img.copy()
         result = cv2.matchTemplate(reference, template, cv2.TM_CCORR_NORMED)
-        y_points, x_points = np.where(result > MAP_MATCHING_THRESHOLD)
+        y_points, x_points = np.where(result > FOOTPRINT_MATCHING_THRESHOLD)
         locations = np.empty(len(y_points), dtype="2i")
         for _i, (_x, _y) in enumerate(zip(x_points, y_points)):
             locations[_i] = (
@@ -63,7 +68,7 @@ class Map:
                 -1,
             )
 
-        cv2.imwrite("available.png", reference)
+        cv2.imwrite(AVAILABLE_POSITIONS_OUTPUT, reference)
 
         return locations
 
@@ -97,7 +102,7 @@ class Map:
         left, right, top, bottom = self._get_bounds(monkey, position)
         cv2.rectangle(self.img, (left, top), (right, bottom), (0, 0, 0), -1)
         monkey.position = position
-        cv2.imwrite("unavailable.png", self.img)
+        cv2.imwrite(UNAVAILABLE_POSITIONS_OUTPUT, self.img)
 
 
 class Scrapyard(Map):

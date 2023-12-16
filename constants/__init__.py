@@ -80,5 +80,6 @@ MONKEY_TEMPLATES = {
 }
 
 # Map Offsets
-MAP_REGION_OFFSET = 40
-MAP_MATCHING_THRESHOLD = 0.97
+FOOTPRINT_MATCHING_THRESHOLD = 0.97
+AVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "available.png")
+UNAVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "unavailable.png")
