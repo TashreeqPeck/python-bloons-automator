@@ -79,3 +79,7 @@ MONKEY_TEMPLATES = {
     MonkeySize.HELI_PILOT: cv2.imread(MonkeySize.HELI_PILOT.value),
     MonkeySize.MONKEY_ACE: cv2.imread(MonkeySize.MONKEY_ACE.value),
 }
+
+# Map Offsets
+MAP_REGION_OFFSET = 40
+MAP_MATCHING_THRESHOLD = 0.97
