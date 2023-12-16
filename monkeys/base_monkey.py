@@ -6,9 +6,10 @@ import logging
 
 # Third Party
 import numpy as np
+from numpy.typing import NDArray
 
 # Local
-from constants import Difficulty, UpgradePath
+from constants import Difficulty, MonkeySize, UpgradePath
 
 # -------------------------------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
@@ -23,17 +24,20 @@ class UpgradeException(Exception):
 class BaseMonkey(ABC):
     """Base Monkey"""
 
-    def __init__(self, difficulty: Difficulty) -> None:
-        if not hasattr(self, "_upgrade_costs") or not hasattr(self, "_base_costs"):
-            raise NotImplementedError(
-                "_upgrade_costs and _base_costs must be implemented in derived class"
-            )
+    def __init__(
+        self,
+        difficulty: Difficulty,
+        upgrade_costs: NDArray[np.integer],
+        base_costs: NDArray[np.integer],
+        size: MonkeySize,
+    ) -> None:
         self._upgrades = np.array([-1, -1, -1])
-        self.position: tuple[int, int] | None = None
+        self.position: tuple[int, int] = (-1, -1)
         # pylint: disable=E1101
-        self._upgrade_cost = self._upgrade_costs[difficulty.value]
-        self.cost = self._base_costs[difficulty.value]
+        self._upgrade_cost = upgrade_costs[difficulty.value]
+        self.cost = base_costs[difficulty.value]
         # pylint: enable=E1101
+        self.size = size
 
     @property
     @abstractmethod

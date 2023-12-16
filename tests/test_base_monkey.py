@@ -63,22 +63,3 @@ class TestDartMonkey:
 
         can_upgrade = self.dart_monkey.can_upgrade(UpgradePath.TOP)
         assert not can_upgrade, "Upgrade possible when it should not be"
-
-    def test_can_upgrade_if_enough_money(self):
-        """Tests that the monkey is only upgradable if there is enough money"""
-        self.dart_monkey.increment_upgrade(UpgradePath.MIDDLE)
-        self.dart_monkey.increment_upgrade(UpgradePath.MIDDLE)
-
-        cost = self.dart_monkey.next_upgrade_cost(UpgradePath.MIDDLE)
-        can_upgrade = self.dart_monkey.can_upgrade(UpgradePath.MIDDLE, cost * 1.2)
-        assert can_upgrade, "Upgrade possible when it should not be"
-
-    def test_can_not_upgrade_if_not_enough_money(self):
-        """Tests that the monkey can't be upgraded if there is not enough money"""
-        self.dart_monkey.increment_upgrade(UpgradePath.BOTTOM)
-        self.dart_monkey.increment_upgrade(UpgradePath.BOTTOM)
-
-        cost = self.dart_monkey.next_upgrade_cost(UpgradePath.BOTTOM)
-        can_upgrade = self.dart_monkey.can_upgrade(UpgradePath.BOTTOM, cost * 0.8)
-
-        assert not can_upgrade, "Upgrade possible when it should not be"

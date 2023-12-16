@@ -1,10 +1,12 @@
 """Global Constants"""
+# pylint: disable=E1101
 # Standard
 from enum import Enum
 import logging
 import os
 
 # Third Party
+import cv2
 
 # Local
 from constants.cash import CUMULATIVE_ROUND_CASH
@@ -55,3 +57,25 @@ HEALTH_REGION = (180, 20, 110, 60)
 CUMULATIVE_ROUND_CASH  # pylint: disable=W0104
 STARTING_ROUND = [1, 1, 3, 6]
 STARTING_CASH = 650
+
+
+# Monkey Size Constants
+class MonkeySize(Enum):
+    """Monkey Sizes"""
+
+    SMALL = os.path.join("resources", "footprints", "small.png")
+    MEDIUM = os.path.join("resources", "footprints", "medium.png")
+    LARGE = os.path.join("resources", "footprints", "large.png")
+    EXTRA_LARGE = os.path.join("resources", "footprints", "xlarge.png")
+    HELI_PILOT = os.path.join("resources", "footprints", "heli.png")
+    MONKEY_ACE = os.path.join("resources", "footprints", "ace.png")
+
+
+MONKEY_TEMPLATES = {
+    MonkeySize.SMALL: cv2.imread(MonkeySize.SMALL.value),
+    MonkeySize.MEDIUM: cv2.imread(MonkeySize.MEDIUM.value),
+    MonkeySize.LARGE: cv2.imread(MonkeySize.LARGE.value),
+    MonkeySize.EXTRA_LARGE: cv2.imread(MonkeySize.EXTRA_LARGE.value),
+    MonkeySize.HELI_PILOT: cv2.imread(MonkeySize.HELI_PILOT.value),
+    MonkeySize.MONKEY_ACE: cv2.imread(MonkeySize.MONKEY_ACE.value),
+}

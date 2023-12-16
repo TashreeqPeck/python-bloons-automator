@@ -4,8 +4,10 @@
 import logging
 
 # Third Party
+import numpy as np
 
 # Local
+from constants import MonkeySize
 from monkeys.base_monkey import Difficulty
 from monkeys.heroes import Hero
 
@@ -19,5 +21,5 @@ class Obyn(Hero):
     """Obyn Greenfoot"""
 
     def __init__(self, difficulty: Difficulty) -> None:
-        self._base_costs = [550, 650, 700, 780]
-        super().__init__(difficulty)
+        base_costs = np.array([550, 650, 700, 780])
+        super().__init__(difficulty, base_costs, MonkeySize.MEDIUM)
