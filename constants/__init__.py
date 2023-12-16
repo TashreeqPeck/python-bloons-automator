@@ -18,7 +18,7 @@ logger.addHandler(logging.NullHandler())
 
 
 # General Constants
-MATCHING_THRESHOLD = 0.98
+MATCHING_THRESHOLD = 0.9
 
 
 class Difficulty(Enum):

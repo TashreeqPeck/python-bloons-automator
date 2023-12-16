@@ -47,25 +47,33 @@ class BloonsDriver:
     def _start_round(self, speed_up: bool = False) -> None:
         """Start the round"""
         try:
-            x, y = pyautogui.locateCenterOnScreen(ROUND_START, confidence=0.9)  # type: ignore
+            x, y = pyautogui.locateCenterOnScreen(
+                ROUND_START, confidence=MATCHING_THRESHOLD
+            )  # type: ignore
             pyautogui.click(x, y)
             logger.info("Round started")
             if speed_up:
                 try:
-                    pyautogui.locateOnScreen(ENABLE_FAST_FORWARD, confidence=0.9)
+                    pyautogui.locateOnScreen(
+                        ENABLE_FAST_FORWARD, confidence=MATCHING_THRESHOLD
+                    )
                     pyautogui.click(x, y)
                     logger.info("Fast forward enabled")
                 except ImageNotFoundException:
                     logger.info("Fast forward already enabled")
         except ImageNotFoundException as error:
             try:
-                pyautogui.locateOnScreen(ENABLE_FAST_FORWARD, confidence=0.9)
+                pyautogui.locateOnScreen(
+                    ENABLE_FAST_FORWARD, confidence=MATCHING_THRESHOLD
+                )
                 logger.info("Round already started")
                 raise RoundAlreadyStartedException  # pylint: disable=W0707
             except ImageNotFoundException:
                 pass
             try:
-                pyautogui.locateOnScreen(DISABLE_FAST_FORWARD, confidence=0.9)
+                pyautogui.locateOnScreen(
+                    DISABLE_FAST_FORWARD, confidence=MATCHING_THRESHOLD
+                )
                 logger.info("Round already started")
                 raise RoundAlreadyStartedException  # pylint: disable=W0707
             except ImageNotFoundException:
@@ -82,7 +90,7 @@ class BloonsDriver:
     def _wait_for_round_end(self):
         """Wait until the round is finished"""
         try:
-            pyautogui.locateOnScreen(ROUND_START, confidence=0.9)
+            pyautogui.locateOnScreen(ROUND_START, confidence=MATCHING_THRESHOLD)
             raise ActionFailedException("Round not started")
         except ImageNotFoundException:
             pass
@@ -90,7 +98,7 @@ class BloonsDriver:
         logger.info("Waiting for round to end")
         while round_ongoing:
             try:
-                pyautogui.locateOnScreen(ROUND_START, confidence=0.9)
+                pyautogui.locateOnScreen(ROUND_START, confidence=MATCHING_THRESHOLD)
                 round_ongoing = False
             except ImageNotFoundException:
                 time.sleep(1)
@@ -125,7 +133,7 @@ class BloonsDriver:
         pyautogui.click(x, y)
         time.sleep(0.1)
         try:
-            pyautogui.locateOnScreen(CANCEL_PLACEMENT, confidence=0.9)
+            pyautogui.locateOnScreen(CANCEL_PLACEMENT, confidence=MATCHING_THRESHOLD)
             raise ActionFailedException("Failed to place monkey")
         except ImageNotFoundException:
             pass
