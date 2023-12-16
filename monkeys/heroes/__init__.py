@@ -8,8 +8,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 # Local
-from constants import MonkeySize
-from monkeys.base_monkey import Difficulty
+from constants import MonkeySize, Difficulty
 
 # -------------------------------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
@@ -24,6 +23,6 @@ class Hero:
         self, difficulty: Difficulty, base_costs: NDArray[np.integer], size: MonkeySize
     ) -> None:
         self.position: tuple[int, int] = (-1, -1)
-        self.cost = base_costs[difficulty.value]  # pylint: disable=E1101
+        self.purchase_cost = base_costs[difficulty.value]
         self.hotkey = "u"
         self.size = size

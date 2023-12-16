@@ -7,8 +7,7 @@ import logging
 import numpy as np
 
 # Local
-from constants import MonkeySize
-from monkeys.base_monkey import Difficulty
+from constants import MonkeySize, Difficulty
 from monkeys.heroes import Hero
 
 # -------------------------------------------------------------------------------------------------

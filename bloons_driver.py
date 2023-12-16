@@ -12,7 +12,7 @@ import keyboard
 # Local
 from constants import *  # pylint: disable=W0401, W0614
 from maps import Map
-from monkeys.base_monkey import BaseMonkey, UpgradeException
+from monkeys import BaseMonkey, UpgradeError
 from monkeys.heroes import Hero
 from ocr import OCR
 
@@ -108,7 +108,7 @@ class BloonsDriver:
 
     def can_afford(self, monkey: BaseMonkey | Hero):
         """Checks if a monkey can be afforded"""
-        return monkey.cost < self.get_cash()
+        return monkey.purchase_cost < self.get_cash()
 
     def place_monkey(
         self, monkey: BaseMonkey | Hero, position: tuple[int, int], fuzzy: bool = False
@@ -116,7 +116,7 @@ class BloonsDriver:
         """Place a monkey on the map"""
         if not self.can_afford(monkey):
             raise ActionFailedException("Insufficient funds")
-        if monkey.position is (-1, -1):
+        if monkey.position == (-1, -1):
             raise ActionFailedException("Monkey already placed")
 
         self.map.place_monkey(monkey, position, fuzzy)
@@ -132,7 +132,7 @@ class BloonsDriver:
         except ImageNotFoundException:
             pass
 
-        self.cash_offset += monkey.cost
+        self.cash_offset += monkey.purchase_cost
         logger.info("%s placed at (%i, %i)", monkey.__class__.__name__, x, y)
 
     def can_upgrade(self, monkey: BaseMonkey, path: UpgradePath):
@@ -142,7 +142,7 @@ class BloonsDriver:
     def upgrade_monkey(self, monkey: BaseMonkey, path: UpgradePath):
         """Upgrades a monkey"""
         if not self.can_upgrade(monkey, path):
-            raise UpgradeException("Monkey not upgradable")
+            raise UpgradeError("Monkey not upgradable")
         if monkey.position is None:
             raise ActionFailedException("Monkey is not placed")
 
@@ -150,7 +150,7 @@ class BloonsDriver:
         pyautogui.click(x, y)
         keyboard.press_and_release(UPGRADE_HOTKEYS[path])
         self.cash_offset += monkey.next_upgrade_cost(path)
-        monkey.increment_upgrade(path)
+        monkey.purchase_upgrade(path)
         pyautogui.click(x, y)
         time.sleep(0.1)  # Wait for box to close
 

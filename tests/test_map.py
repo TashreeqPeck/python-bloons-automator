@@ -10,7 +10,7 @@ import pytest
 
 # Local
 from maps import MapPlacementError, Scrapyard
-from monkeys.base_monkey import Difficulty
+from monkeys import Difficulty
 from monkeys.dart_monkey import DartMonkey
 from monkeys.ninja_monkey import NinjaMonkey
 

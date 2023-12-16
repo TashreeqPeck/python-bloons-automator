@@ -2,7 +2,7 @@
 
 import logging
 from maps import Scrapyard
-from monkeys.base_monkey import Difficulty, UpgradePath
+from constants import Difficulty, UpgradePath
 from monkeys.dart_monkey import DartMonkey
 from monkeys.heroes.obyn import Obyn
 from monkeys.ninja_monkey import NinjaMonkey

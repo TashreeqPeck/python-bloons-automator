@@ -54,7 +54,6 @@ MONEY_REGION = (486, 30, 220, 57)
 HEALTH_REGION = (180, 20, 110, 60)
 
 # Round Cash Constants
-CUMULATIVE_ROUND_CASH  # pylint: disable=W0104
 STARTING_ROUND = [1, 1, 3, 6]
 STARTING_CASH = 650
 

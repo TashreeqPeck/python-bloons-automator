@@ -12,7 +12,7 @@ from numpy.typing import NDArray
 from constants import MAP_MATCHING_THRESHOLD, MONKEY_TEMPLATES
 
 # Local
-from monkeys.base_monkey import BaseMonkey
+from monkeys import BaseMonkey
 from monkeys.heroes import Hero
 
 # -------------------------------------------------------------------------------------------------
