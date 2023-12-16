@@ -87,5 +87,6 @@ MONKEY_TEMPLATES = {
 
 # Map Constants
 FOOTPRINT_MATCHING_THRESHOLD = 0.97
-AVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "available.png")
-UNAVAILABLE_POSITIONS_OUTPUT = os.path.join("output", "maps", "unavailable.png")
+MAP_OUTPUT_DIRECTORY = os.path.join("output", "map")
+AVAILABLE_POSITIONS_OUTPUT = os.path.join(MAP_OUTPUT_DIRECTORY, "available.png")
+UNAVAILABLE_POSITIONS_OUTPUT = os.path.join(MAP_OUTPUT_DIRECTORY, "unavailable.png")
