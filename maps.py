@@ -9,14 +9,14 @@ import os
 import cv2
 import numpy as np
 from numpy.typing import NDArray
+
+# Local
 from constants import (
     AVAILABLE_POSITIONS_OUTPUT,
     FOOTPRINT_MATCHING_THRESHOLD,
     MONKEY_TEMPLATES,
     UNAVAILABLE_POSITIONS_OUTPUT,
 )
-
-# Local
 from monkeys import BaseMonkey
 from monkeys.heroes import Hero
 
