@@ -7,7 +7,8 @@ import logging
 import numpy as np
 
 # Local
-from monkeys.base_monkey import BaseMonkey, Difficulty
+from monkeys import BaseMonkey
+from constants import MonkeySize, Difficulty
 
 # -------------------------------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
@@ -19,8 +20,7 @@ class Monkey(BaseMonkey):
     """"""
 
     def __init__(self, difficulty: Difficulty) -> None:
-        self._base_costs = np.array([])
-        self._upgrade_costs = np.array(
+        upgrade_costs = np.array(
             [
                 [
                     [],
@@ -44,8 +44,4 @@ class Monkey(BaseMonkey):
                 ],
             ]
         )
-        super().__init__(difficulty)
-
-    @property
-    def hotkey(self) -> str:
-        return ""
+        super().__init__(difficulty, upgrade_costs, MonkeySize.SMALL, "")

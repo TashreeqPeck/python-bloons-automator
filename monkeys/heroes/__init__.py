@@ -4,9 +4,11 @@
 import logging
 
 # Third Party
+import numpy as np
+from numpy.typing import NDArray
 
 # Local
-from monkeys.base_monkey import Difficulty
+from constants import MonkeySize, Difficulty
 
 # -------------------------------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
@@ -17,11 +19,14 @@ logger.addHandler(logging.NullHandler())
 class Hero:
     """Hero Monkey"""
 
-    def __init__(self, difficulty: Difficulty) -> None:
-        if not hasattr(self, "_base_costs"):
-            raise NotImplementedError(
-                "_base_costs must be implemented in derived class"
-            )
-        self.position: tuple[int, int] | None = None
-        self.cost = self._base_costs[difficulty.value]  # pylint: disable=E1101
+    def __init__(
+        self, difficulty: Difficulty, base_costs: NDArray[np.integer], size: MonkeySize
+    ) -> None:
+        self.position: tuple[int, int] = (-1, -1)
+        self.purchase_cost = base_costs[difficulty.value]
         self.hotkey = "u"
+        self.size = size
+
+
+# pylint: disable=C0413
+from monkeys.heroes.obyn import Obyn
