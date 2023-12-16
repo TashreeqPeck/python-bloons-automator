@@ -3,10 +3,8 @@
 import logging
 from maps import Scrapyard
 from constants import Difficulty, UpgradePath
-from monkeys.dart_monkey import DartMonkey
-from monkeys.heroes.obyn import Obyn
-from monkeys.ninja_monkey import NinjaMonkey
-from monkeys.sniper_monkey import SniperMonkey
+from monkeys import DartMonkey, NinjaMonkey, SniperMonkey
+from monkeys.heroes import Obyn
 from bloons_driver import BloonsDriver
 
 logger = logging.getLogger()

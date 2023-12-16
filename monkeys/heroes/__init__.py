@@ -26,3 +26,7 @@ class Hero:
         self.purchase_cost = base_costs[difficulty.value]
         self.hotkey = "u"
         self.size = size
+
+
+# pylint: disable=C0413
+from monkeys.heroes.obyn import Obyn

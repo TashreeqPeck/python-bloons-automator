@@ -6,8 +6,7 @@ import logging
 # Third Party
 
 # Local
-from monkeys import Difficulty, UpgradePath
-from monkeys.dart_monkey import DartMonkey
+from monkeys import DartMonkey, Difficulty, UpgradePath
 
 
 # -------------------------------------------------------------------------------------------------

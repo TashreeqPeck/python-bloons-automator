@@ -79,3 +79,9 @@ class BaseMonkey(metaclass=ABCMeta):
         """Purchase the monkey"""
         self.position = position
         self._upgrades = np.array([0, 0, 0])
+
+
+# pylint: disable=C0413
+from monkeys.dart_monkey import DartMonkey
+from monkeys.ninja_monkey import NinjaMonkey
+from monkeys.sniper_monkey import SniperMonkey
