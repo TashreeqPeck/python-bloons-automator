@@ -27,6 +27,10 @@ class Hero:
         self.hotkey = "u"
         self.size = size
 
+    def purchase_monkey(self, position: tuple[int, int]):
+        """Purchase the monkey"""
+        self.position = position
+
 
 # pylint: disable=C0413
 from monkeys.heroes.obyn import Obyn

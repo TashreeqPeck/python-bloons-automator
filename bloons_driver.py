@@ -51,7 +51,7 @@ class BloonsDriver:
                 ROUND_START, confidence=MATCHING_THRESHOLD
             )  # type: ignore
             pyautogui.click(x, y)
-            logger.info("Round started")
+            logger.info("Round %i started", self.round)
             if speed_up:
                 try:
                     pyautogui.locateOnScreen(
@@ -98,11 +98,21 @@ class BloonsDriver:
         logger.info("Waiting for round to end")
         while round_ongoing:
             try:
+                pyautogui.locateOnScreen(VICTORY, confidence=MATCHING_THRESHOLD)
+                raise ActionFailedException("Game ended in victory")
+            except ImageNotFoundException:
+                pass
+            try:
+                pyautogui.locateOnScreen(DEFEAT, confidence=MATCHING_THRESHOLD)
+                raise ActionFailedException("Game ended in defeat")
+            except ImageNotFoundException:
+                pass
+            try:
                 pyautogui.locateOnScreen(ROUND_START, confidence=MATCHING_THRESHOLD)
                 round_ongoing = False
             except ImageNotFoundException:
                 time.sleep(1)
-        logger.info("Round ended")
+        logger.info("Round %i ended", self.round)
 
     def get_health(self) -> int:
         """Gets the player's health (using ocr)"""
@@ -122,7 +132,7 @@ class BloonsDriver:
         """Place a monkey on the map"""
         if not self.can_afford(monkey):
             raise ActionFailedException("Insufficient funds")
-        if monkey.position == (-1, -1):
+        if monkey.position != (-1, -1):
             raise ActionFailedException("Monkey already placed")
 
         self.map.place_monkey(monkey, position, fuzzy)
@@ -167,3 +177,19 @@ class BloonsDriver:
             y,
             path.name,
         )
+
+    def game_ended(self) -> bool:
+        """Checks if the game has ended"""
+        ended = False
+        try:
+            pyautogui.locateOnScreen(DEFEAT, confidence=MATCHING_THRESHOLD)
+            ended = True
+        except ImageNotFoundException:
+            pass
+        try:
+            pyautogui.locateOnScreen(VICTORY, confidence=MATCHING_THRESHOLD)
+            ended = True
+        except ImageNotFoundException:
+            pass
+
+        return ended

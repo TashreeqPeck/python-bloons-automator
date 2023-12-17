@@ -104,7 +104,7 @@ class Map:
         positions = self.get_positions(monkey)
         left, right, top, bottom = self._get_bounds(monkey, position)
         cv2.rectangle(self.img, (left, top), (right, bottom), (0, 0, 255), -1)
-        monkey.position = position
+        monkey.purchase_monkey(position)
         cv2.imwrite(UNAVAILABLE_POSITIONS_OUTPUT, self.img)
 
 
