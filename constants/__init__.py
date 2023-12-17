@@ -42,6 +42,8 @@ OCR_TEXT_RESULTS = os.path.join(OCR_OUTPUT_DIRECTORY, "text_results.csv")
 ROUND_START = os.path.join("resources", "start_round.png")
 ENABLE_FAST_FORWARD = os.path.join("resources", "enable_fast_forward.png")
 DISABLE_FAST_FORWARD = os.path.join("resources", "disable_fast_forward.png")
+VICTORY = os.path.join("resources", "victory_badge.png")
+DEFEAT = os.path.join("resources", "defeat_badge.png")
 STARTING_ROUND = [1, 1, 3, 6]
 STARTING_CASH = 650
 
