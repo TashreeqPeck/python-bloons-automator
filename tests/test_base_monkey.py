@@ -63,3 +63,14 @@ class TestDartMonkey:
 
         can_upgrade = self.dart_monkey.can_upgrade(UpgradePath.TOP)
         assert not can_upgrade, "Upgrade possible when it should not be"
+
+    def test_can_upgrade_one_path_more_than_three_times_when_another_path_upgraded(
+        self,
+    ):
+        """Tests that one path can be upgraded more than 3 times when another path upgraded"""
+        self.dart_monkey.purchase_upgrade(UpgradePath.TOP)
+        self.dart_monkey.purchase_upgrade(UpgradePath.MIDDLE)
+        self.dart_monkey.purchase_upgrade(UpgradePath.MIDDLE)
+        self.dart_monkey.purchase_upgrade(UpgradePath.TOP)
+        self.dart_monkey.purchase_upgrade(UpgradePath.TOP)
+        self.dart_monkey.purchase_upgrade(UpgradePath.TOP)

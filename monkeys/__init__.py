@@ -48,8 +48,8 @@ class BaseMonkey(metaclass=ABCMeta):
             np.all(self._upgrades != -1)  # Must be purchased
             and path_0 < 5  # Max of 5 upgrades
             and (path_1 < 1 or path_2 < 1)  # Only 2 can be upgraded at any time
-            and not (
-                path_0 == 2 and (path_1 >= 1 or path_2 >= 1)
+            and (
+                path_0 < 2 or (path_1 <= 2 and path_2 <= 2)
             )  # only 1 can be more than 3 times
         )
 
@@ -75,7 +75,7 @@ class BaseMonkey(metaclass=ABCMeta):
 
         self._upgrades[path.value] += 1
 
-    def purchase_monkey(self, position) -> None:
+    def purchase_monkey(self, position: tuple[int, int]) -> None:
         """Purchase the monkey"""
         self.position = position
         self._upgrades = np.array([0, 0, 0])
